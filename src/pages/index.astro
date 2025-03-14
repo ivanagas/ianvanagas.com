@@ -1,11 +1,93 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import MainLayout from '../layouts/MainLayout.astro';
+import Parser from 'rss-parser';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+let posts = await getCollection('post');
+posts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const parser = new Parser();
+const ianvFeed = await parser.parseURL('https://ianv.substack.com/feed');
+const ianvPosts = (ianvFeed.items || []).map(item => ({
+    title: item.title,
+    date: item.pubDate ? new Date(item.pubDate) : new Date(),
+    url: item.link,
+    source: 'ianv-substack'
+}));
+
+const smartYoungBCFeed = await parser.parseURL('https://smartyoungbc.substack.com/feed');
+const smartYoungBCPosts = (smartYoungBCFeed.items || []).map(item => ({
+    title: item.title,
+    date: item.pubDate ? new Date(item.pubDate) : new Date(),
+    url: item.link,
+    source: 'smartyoungbc'
+}));
+
+const localPosts = posts.map(post => ({
+    title: post.data.title,
+    date: post.data.date,
+    url: `/posts/${post.id}`,
+    source: 'local'
+}));
+
+// Combine all posts and sort by date
+const allPosts = [...localPosts, ...ianvPosts, ...smartYoungBCPosts]
+    .sort((a, b) => b.date.getTime() - a.date.getTime())
+    .slice(0, 10);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<MainLayout title="Home">
+<h1>Hi, I'm Ian</h1>
+<p>I'm a writer and software developer. I currently work as a technical content marketer for <a href="https://posthog.com">PostHog</a>, a suite of tools to help you build better products. I live in Vancouver, Canada.</p>
+<p>I write about internet communities, products, creation, AI, and crypto. I wrote <a href="https://www.smartyoungbc.com/">Smart Young BC</a>.</p>
+
+<div style="display: flex; justify-content: center;">
+	<p><a href="/projects">Projects</a> - <a href="mailto:ianvanagas@gmail.com">Email me</a> - <a href="https://twitter.com/IanVanagas">Twitter</a> - <a href="/reading-list">Reading list</a> - <a href="https://hevy.com/user/ianvan">Hevy</a> - <a href="https://strava.app.link/OoJfsGjGvNb">Strava</a></p>
+</div>
+
+<div style="display: flex; flex-direction: column; align-items: center;">
+	<h3>Get my latest writing via email:</h3>
+	<iframe src="https://ianv.substack.com/embed" width="480" height="150" style="border:1px solid #2c4967; border-radius: 8px;" frameborder="0" scrolling="no"></iframe>
+</div>
+
+<div>
+	<h2>Recent Posts</h2>
+	<ul>
+	{allPosts.map((post) => (
+			<li>
+					<a href={post.url} target={post.source !== 'local' ? "_blank" : undefined} rel={post.source !== 'local' ? "noopener noreferrer" : undefined}>
+							{post.title}
+					</a>
+			</li>
+	))}
+	</ul>
+</div>
+<div>
+	<h2>Popular</h2>
+	<ul>
+		{/* 
+			View counts (as of Feb 2025):
+			1. how-discord-won: 42,478
+			2. clubhouse-is-a-cargo-cult: 9,237
+			3. always-be-collecting-dots: 979
+			4. Smart Young BC: 834
+			5. tiktok-making-copying-easy: 740
+			6. unbundling-youtube: 734
+			7. Where are all the banger blog posts?: 476
+			8. tiktoks-viral-video-growth-machine: 475
+			9. offensive-defensive-community-onboarding: 467
+			10. content-about-creation-is-procrastination: 438
+		*/}
+		<li><a href="/posts/how-discord-won">How Discord Won</a></li>
+		<li><a href="/posts/clubhouse-is-a-cargo-cult">Clubhouse Is a Cargo Cult</a></li>
+		<li><a href="/posts/always-be-collecting-dots">How to Be a Better Listener: Always Be Collecting Dots</a></li>
+		<li><a href="https://www.smartyoungbc.com/" target="_blank" rel="noopener noreferrer">Smart Young BC: A Vision for the Future of BC</a></li>
+		<li><a href="/posts/tiktok-making-copying-easy">TikTok Succeeds by Making Copying Easy</a></li>
+		<li><a href="/posts/unbundling-youtube">Unbundling YouTube</a></li>
+		<li><a href="https://ianv.substack.com/p/where-are-all-the-banger-blog-posts" target="_blank" rel="noopener noreferrer">Where are all the banger blog posts?</a></li>
+		<li><a href="/posts/tiktoks-viral-video-growth-machine">TikTok's Viral Video Growth Machine</a></li>
+		<li><a href="/posts/offensive-defensive-community-onboarding">Offensive & Defensive Community Onboarding</a></li>
+		<li><a href="/posts/content-about-creation-is-procrastination">Content About Creation is Procrastination</a></li>
+	</ul>
+</div>
+</MainLayout>

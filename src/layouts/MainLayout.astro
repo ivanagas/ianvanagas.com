@@ -1,0 +1,41 @@
+---
+import Navigation from '../components/Navigation.astro';
+import '../styles/global.css';
+const { frontmatter } = Astro.props;
+const title = frontmatter?.title || Astro.props.title;
+const image = frontmatter?.image || Astro.props.image;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} - Ian Vanagas</title>
+		<meta property="og:title" content={title} />
+		<meta property="og:image" content={image} />
+	</head>
+	<body>
+		<div class="container">
+			<Navigation />
+			<slot />
+		</div>
+	</body>
+</html>
+
+<style>
+body {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    width: 100%;
+}
+
+.container {
+    width: 100%;
+    max-width: 80ch;
+    padding: 2rem;
+}
+</style>

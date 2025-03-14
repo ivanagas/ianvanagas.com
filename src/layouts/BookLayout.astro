@@ -1,0 +1,10 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+const { frontmatter } = Astro.props;
+
+const pageTitle = `Notes from ${frontmatter.title} by ${frontmatter.author}`;
+---
+<MainLayout title={pageTitle}>
+  <h1>{pageTitle}</h1>
+  <slot />
+</MainLayout>

@@ -1,0 +1,118 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Parser from 'rss-parser';
+import { getCollection } from 'astro:content';
+
+// I'm not expecting to publish any local posts
+const parser = new Parser();
+const ianvFeed = await parser.parseURL('https://ianv.substack.com/feed');
+const ianvPosts = (ianvFeed.items || []).map(item => ({
+    title: item.title,
+    date: item.pubDate ? new Date(item.pubDate) : new Date(),
+    url: item.link,
+    source: 'ianv-substack'
+}));
+
+const smartYoungBCFeed = await parser.parseURL('https://smartyoungbc.substack.com/feed');
+const smartYoungBCPosts = (smartYoungBCFeed.items || []).map(item => ({
+    title: item.title,
+    date: item.pubDate ? new Date(item.pubDate) : new Date(),
+    url: item.link,
+    source: 'smartyoungbc'
+}));
+
+const allPosts = [...ianvPosts, ...smartYoungBCPosts]
+    .filter(post => post.date > new Date('2024-06-15'))
+    .sort((a, b) => b.date.getTime() - a.date.getTime())
+
+const recentPosts = allPosts.slice(0, 5);
+
+import { frontmatter as projectsFrontmatter } from './projects.md';
+
+let spanishHours = 49;
+try {
+  const spanishResponse = await fetch('https://api.track.toggl.com/reports/api/v3/workspace/2420767/projects/176514904/summary', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + Buffer.from(`${import.meta.env.TOGGL_API_TOKEN}:api_token`).toString('base64')
+  },
+  body: JSON.stringify({
+    start_date: '2024-09-01',
+    end_date: '2025-02-22'
+  })
+});
+const spanishData = await spanishResponse.json();
+spanishHours = Math.round(spanishData.seconds / 3600);
+} catch (error) {
+  console.error(error);
+}
+
+const books = await getCollection('book');
+const classics = books.filter(book => book.data.tags?.includes('classic'));
+const classicsRecent = classics.slice(0, 5);
+const computerBooks = books.filter(book => book.data.tags?.includes('computer'));
+const computerBooksRecent = computerBooks.slice(0, 5);
+const writingBooks = books.filter(book => book.data.tags?.includes('writing'));
+const writingBooksRecent = writingBooks.slice(0, 5);
+---
+
+<MainLayout title="100">
+
+<h1>100</h1>
+
+<blockquote>Measure in hundreds.</blockquote>
+
+<blockquote>Do it fast, do it wrong, do it again, win</blockquote>
+
+<blockquote>For whatever action scares you (and isn't life-threatening), remember this surefire way to eliminate the fear: do it 100 times.</blockquote>
+
+<h2>Posts ({allPosts.length}/100)</h2>
+
+Starting with <a href="https://ianv.substack.com/p/million-dollar-blog-posts">Million dollar blog posts</a>, publish 100 "personal" posts on <a href="https://ianv.substack.com/">my Substack</a> or <a href="https://smartyoungbc.substack.com/">Smart Young BC</a>. Recent:
+
+<ul>
+    {recentPosts.map(post => (
+        <li><a href={post.url}>{post.title}</a></li>
+    ))}
+</ul>
+
+<h2>Projects ({projectsFrontmatter.count}/100)</h2>
+
+Ship 100 <a href="/projects">projects</a> involving code.
+
+<h2>Spanish ({spanishHours}/100)</h2>
+
+<p>Practice 100 hours of Spanish starting September 1st, 2024.</p>
+
+<h2>Classics ({classics.length}/100)</h2>
+
+Reading 100 of the classic books of civilization. Recent:
+
+<ul>
+  {classicsRecent.map(book => (
+    <li><a href={`/books/${book.id}`}>{book.data.title}</a></li>
+  ))}
+</ul>
+
+<h2>Computer books ({computerBooks.length}/100)</h2>
+
+Read 100 books about coding, computers, the internet, or programming. Recent:
+
+<ul>
+  {computerBooksRecent.map(book => (
+    <li><a href={`/books/${book.id}`}>{book.data.title}</a></li>
+  ))}
+</ul>
+
+<h2>Writing books ({writingBooks.length}/100)</h2>
+
+Read 100 books about writing or writers, or creative non-fiction. Recent:
+
+<ul>
+  {writingBooksRecent.map(book => (
+    <li><a href={`/books/${book.id}`}>{book.data.title}</a></li>
+  ))}
+</ul>
+
+</MainLayout>

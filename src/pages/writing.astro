@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../layouts/MainLayout.astro';
+import Parser from 'rss-parser';
+
+let posts = await getCollection('post');
+posts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const parser = new Parser();
+const ianvFeed = await parser.parseURL('https://ianv.substack.com/feed');
+const ianvPosts = (ianvFeed.items || []).map(item => ({
+    title: item.title,
+    date: item.pubDate ? new Date(item.pubDate) : new Date(),
+    url: item.link,
+    source: 'ianv-substack'
+}));
+
+const smartYoungBCFeed = await parser.parseURL('https://smartyoungbc.substack.com/feed');
+const smartYoungBCPosts = (smartYoungBCFeed.items || []).map(item => ({
+    title: item.title,
+    date: item.pubDate ? new Date(item.pubDate) : new Date(),
+    url: item.link,
+    source: 'smartyoungbc'
+}));
+
+const localPosts = posts.map(post => ({
+    title: post.data.title,
+    date: post.data.date,
+    url: `/posts/${post.id}`,
+    source: 'local'
+}));
+
+// Combine all posts and sort by date
+const allPosts = [...localPosts, ...ianvPosts, ...smartYoungBCPosts]
+    .sort((a, b) => b.date.getTime() - a.date.getTime())
+---
+
+<MainLayout title="Writing">
+	<h1>Writing</h1>
+	<ul>
+		{allPosts.map(post => (
+			<li><a href={post.url}>{post.title}</a></li>
+		))}
+	</ul>
+</MainLayout>
+

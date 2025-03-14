@@ -1,0 +1,153 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+
+const books = await getCollection('book');
+
+const favoriteBooks = books.filter((book) => book.data.tags.includes('favorite'));
+const recentBooks = books
+  .sort((a, b) => b.data.readDate.getTime() - a.data.readDate.getTime())
+  .filter((book) => book.data.readDate > new Date('2024-01-01'))
+  .slice(0, 5);
+---
+
+<MainLayout title="Reading List">
+  <h1>Reading List</h1>
+
+  <blockquote>
+    <p>"As long as I have a book in my hand, I don't feel like I'm wasting time."</p>
+    <footer>Charlie Munger</footer>
+  </blockquote>
+
+  <p>Here are a list of books, articles, and podcasts I enjoyed and highly recommend. I am always looking for new ones, <a href="mailto:ianvanagas@gmail.com">send me a recommendation!</a></p>
+
+  <h2>All-Time</h2>
+  <ul>
+    <li><a href="https://amzn.to/34Bj7sk"><em>Meditations</em></a> by Marcus Aurelius</li>
+    <li><a href="https://amzn.to/2M4lu0s"><em>Total Recall</em></a> by Arnold Schwarzenegger</li>
+    <li><a href="https://amzn.to/38v3nZd"><em>A Guide to the Good Life: The Ancient Art of Stoic Joy</em></a> by William Irvine</li>
+    <li><a href="https://amzn.to/38C45nA"><em>The Courage To Be Disliked</em></a> by Ichiro Kishimi</li>
+    <li><a href="https://www.amazon.com/Zero-One-Notes-Startups-Future/dp/0804139296"><em>Zero to One</em></a> by Peter Thiel and Blake Masters</li>
+    <li><a href="https://amzn.to/3pi2I3Z"><em>Alchemy: The Surprising Power of Ideas That Don't Make Sense</em></a> by Rory Sutherland</li>
+    <li><a href="https://amzn.to/3pmpNTk"><em>The Elephant in the Brain: Hidden Motives in Everyday Life</em></a> by Kevin Simler and Robin Hanson</li>
+    <li><a href="https://amzn.to/34BjMtO"><em>Master of the Senate: The Years of Lyndon Johnson III</em></a> by Robert Caro</li>
+    <li><a href="https://amzn.to/3rqssNm"><em>Antifragile: Things That Gain from Disorder</em></a> by Nassim Nicholas Taleb</li>
+    <li><a href="https://amzn.to/39MS7cr"><em>The Revolt of The Public and the Crisis of Authority in the New Millennium</em></a> by Martin Gurri</li>
+    <li><a href="https://www.amazon.com/Breath-New-Science-Lost-Art/dp/0735213615"><em>Breath: The New Science of a Lost Art</em></a> by James Nestor</li>
+    <li><em>When We Cease To Understand The World</em> by Benjamín Labatut</li>
+    <li><a href="https://www.amazon.ca/Iliad-Fitzgerald-Translation-Homer/dp/0374529051"><em>The Iliad</em></a> by Homer (Fitzgerald Translation)</li>
+    <li><em>Designing Data-Intensive Applications</em> by Martin Kleppmann</li>
+    {favoriteBooks.map((book) => (
+      <li><a href={`/books/${book.id}`}><em>{book.data.title}</em></a> by {book.data.author}</li>
+    ))}
+    
+  </ul>
+
+  <h2>Recent</h2>
+  <ul>
+    {recentBooks.map((book) => (
+      <li><a href={`/books/${book.id}`}><em>{book.data.title}</em></a> by {book.data.author}</li>
+    ))}
+    <li><em>The Chile Project</em> by Sebastián Edwards</li>
+    <li><em>Impro</em> by Keith Johnstone</li>
+    <li><em>Muji Is</em> by Muji Archive</li>
+    <li><em>The Republic</em> by Plato</li>
+    <li><em>The Last Days of Socrates</em> by Plato</li>
+    <li><em>Unreasonable Hospitality</em> by Will Guidara</li>
+    <li><em>Singapore, Singapura</em> by Nicholas Walton</li>
+    <li><em>Brazil: A Biography</em> by Lilia Schwarcz and Heloisa Starling</li>
+    <li><em>Pitch Anything</em> by Oren Klaff</li>
+    <li><em>Never Rest on Your Ores</em> by Norman Keevil</li>
+    <li><em>Poor Charlie's Almanack</em> by Charlie Munger</li>
+    <li><em>The Phoenix Project</em> by Gene Kim, Kevin Behr, George Spafford</li>
+    <li><em>Brazil on the Rise</em> by Larry Rohter</li>
+    <li><em>Extreme Programming Explained</em> by Kent Beck</li>
+    <li><em>Organizing Genius</em> by Warren Bennis, Patricia Ward Biederman</li>
+    <li><em>The MANIAC</em> by Benjamín Labatut</li>
+    <li><em>When We Cease To Understand The World</em> by Benjamín Labatut</li>
+    <li><em>The Odyssey</em> by Homer (Fagles Translation)</li>
+    <li><em>The Iliad</em> by Homer (Lomardo Translation)</li>
+    <li><em>Designing Data-Intensive Applications</em> by Martin Kleppmann</li>
+    <li><em>Nostromo</em> by Joseph Conrad</li>
+    <li><em>Excellent Advice for Living</em> by Kevin Kelly</li>
+    <li><em>The Visual Display of Quantitative Information</em> by Edward Tufte</li>
+  </ul>
+
+  <hr />
+
+  <h2>All-Time Links</h2>
+  <ul>
+    <li><a href="https://blog.samaltman.com/what-i-wish-someone-had-told-me"><em>What I Wish Someone Had Told Me</em></a> by Sam Altman</li>
+    <li><a href="https://guzey.com/lifehacks/"><em>lifehacks</em></a> by Alexey Guzey</li>
+    <li><a href="https://www.ribbonfarm.com/2010/07/26/a-big-little-idea-called-legibility/"><em>A Big Little Idea Called Legibility</em></a> by Venkatesh Rao</li>
+    <li><a href="https://spark-public.s3.amazonaws.com/startup/lecture_slides/lecture5-market-wireframing-design.pdf"><em>Market Research, Wireframing, and Design</em></a> by Balaji S. Srinivasan</li>
+    <li><a href="https://dominiccummings.com/2019/06/26/on-the-referendum-33-high-performance-government-cognitive-technologies-michael-nielsen-bret-victor-seeing-rooms/"><em>On the referendum #33: High performance government, 'cognitive technologies', Michael Nielsen, Bret Victor, & 'Seeing Rooms'</em></a> by Dominic Cummings</li>
+    <li><a href="https://danwang.co/college-girardian-terror/"><em>Violence and the Sacred: College as an incubator of Girardian terror</em></a> by Dan Wang</li>
+    <li><a href="https://meltingasphalt.com/social-status-down-the-rabbit-hole/"><em>Social Status: Down the Rabbit Hole</em></a> by Kevin Simler</li>
+    <li><a href="https://slatestarcodex.com/2014/07/30/meditations-on-moloch/"><em>Meditations On Moloch</em></a> by Scott Alexander</li>
+    <li><a href="https://stratechery.com/2013/friction/"><em>Friction</em></a> by Ben Thompson</li>
+    <li><a href="https://medium.com/craft-ventures/the-cadence-how-to-operate-a-saas-startup-436aa8099e8"><em>The Cadence: How to Operate a SaaS Startup</em></a> by David Sacks</li>
+    <li><a href="https://www.sbnation.com/a/17776-football"><em>17776 (What Football Will Look Like in the Future)</em></a> by Jon Bois</li>
+    <li><a href="https://mattlakeman.org/2020/10/06/thoughts-on-meaning-and-writing/"><em>Thoughts on Meaning and Writing</em></a> by Matt Lakeman</li>
+    <li><a href="https://www.linkedin.com/pulse/amp-up-frank-slootman/"><em>Amp It Up!</em></a> by Frank Slootman</li>
+    <li><a href="https://archive.is/HSMpr"><em>The Purpose of Technology is Human Flourishing</em></a> by Anton Troynikov</li>
+    <li><a href="https://www.newyorker.com/magazine/2016/10/10/sam-altmans-manifest-destiny"><em>Sam Altman's Manifest Destiny</em></a> by Tad Friend</li>
+    <li><a href="https://nat.org/"><em>Some things I believe</em></a> by Nat Friedman</li>
+    <li><a href="https://nabeelqu.co/principles"><em>Principles</em></a> by Nabeel Qureshi</li>
+    <li><a href="https://flocrivello.com/nobody-cares/"><em>Nobody Cares</em></a> by Florent Crivello</li>
+    <li><a href="https://slatestarcodex.com/2014/09/30/i-can-tolerate-anything-except-the-outgroup/"><em>I Can Tolerate Anything Except The Outgroup</em></a> by Scott Alexander</li>
+    <li><a href="https://blog.samaltman.com/how-to-be-successful"><em>How To Be Successful</em></a> by Sam Altman</li>
+    <li><a href="https://www.blackstone.com/press-releases/article/blackstones-byron-wien-discusses-lessons-learned-in-his-first-80-years/"><em>Blackstone's Byron Wien Discusses Lessons Learned in His First 80 Years</em></a> by Byron Wien</li>
+    <li><a href="https://foundersfund.com/the-future/"><em>What Happened to the Future</em></a> by Founders Fund</li>
+    <li><a href="https://a16z.com/2020/04/18/its-time-to-build/"><em>IT'S TIME TO BUILD</em></a> by Marc Andreessen</li>
+    <li><a href="https://medium.com/@dunn/the-risk-not-taken-40cf0a8919cb"><em>The Risk Not Taken</em></a> by Andy Dunn</li>
+    <li><a href="https://www.eugenewei.com/blog/2019/2/19/status-as-a-service"><em>Status as a Service (StaaS)</em></a> by Eugene Wei</li>
+    <li><a href="https://guzey.com/follow-up/"><em>It Is Your Responsibility to Follow Up</em></a> by Alexey Guzey</li>
+    <li><a href="https://www.forcingfunction.com/articles/play-to-win"><em>Play to Win: Meta-Skills in High Stakes Poker</em></a> by Chris Sparks</li>
+    <li><a href="https://jsomers.net/blog/speed-matters"><em>Speed matters: Why working quickly is more important than it seems</em></a> by James Somers</li>
+    <li><a href="https://applieddivinitystudies.com/trying/"><em>No One is Even Trying</em></a> by Applied Divinity Studies</li>
+    <li><a href="https://subpixel.space/entries/life-after-lifestyle/"><em>Life After Lifestyle</em></a> by Toby Shorin</li>
+    <li><a href="https://www.alicemaz.com/writing/program.html"><em>how I think when I think about programming</em></a> by Alice Maz</li>
+    <li><a href="https://www.thediff.co/p/jane-street"><em>Understanding Jane Street</em></a> by Byrne Hobart</li>
+    <li><a href="https://learnhowtolearn.org/how-to-build-extremely-quickly/"><em>How to Build Anything Extremely Quickly</em></a> by dnbt777</li>
+    <li><a href="https://practicaltypography.com/typography-in-ten-minutes.html"><em>Typography in ten minutes</em></a> by Matthew Butterick</li>
+  </ul>
+
+  <hr />
+
+  <h2>Podcasts</h2>
+  <ul>
+    <li><a href="https://conversationswithtyler.com/">Conversations with Tyler</a></li>
+    <li><a href="https://www.founderspodcast.com/">Founders</a></li>
+    <li><a href="https://www.acquired.fm/">Acquired</a></li>
+    <li><a href="https://www.relay.fm/cortex">Cortex</a></li>
+    <li><a href="https://pca.st/bhmuecd7">How I Write</a></li>
+    <li><a href="https://hermitix.net/">Hermitix</a></li>
+    <li><a href="https://devonzuegel.com/tag/order-without-design-podcast">Order Without Design</a></li>
+    <li><a href="https://simplecast.econtalk.org/">EconTalk</a></li>
+    <li><a href="https://exponent.fm/">Exponent</a></li>
+    <li><a href="https://podcast.otherlife.co/">Other Life</a></li>
+    <li><a href="https://www.httotw.com/">How to Take Over the World</a></li>
+    <li><a href="https://www.dwarkeshpatel.com/podcast">Dwarkesh Podcast</a></li>
+    <li><a href="https://open.spotify.com/show/3pNmFlFnobsZ0tBRdIgmZr?si=66aeb48f42774df5">The Frontier</a></li>
+    <li><a href="https://rss.com/podcasts/thenetworkage/">The Network Age</a></li>
+    <li><a href="https://narrativespodcast.com/">Narratives</a></li>
+    <li><a href="https://pca.st/tzg60sv5">Audience of One</a></li>
+  </ul>
+
+  <h2>Episodes</h2>
+  <ul>
+    <li><a href="https://www.buzzsprout.com/877747/4615988-24-serverless-at-stedi-with-zack-kanter">Serverless at Stedi with Zack Kanter</a></li>
+    <li><a href="https://tim.blog/2016/05/22/sebastian-junger/">Lessons from War, Tribal Societies, and a Non-Fiction Life (Sebastian Junger)</a></li>
+    <li><a href="https://conversationswithtyler.com/episodes/karl-ove-knausgard/">Karl Ove Knausgård on Literary Freedom</a></li>
+    <li><a href="https://www.joincolossus.com/episodes/14063850/leydon-designing-digital-economies?tab=transcript">Gabriel Leydon – Designing Digital Economies</a></li>
+    <li><a href="https://blog.ycombinator.com/sam-altman-on-choosing-projects-creating-value-and-finding-purpose/">Sam Altman on Choosing Projects, Creating Value, and Finding Purpose</a></li>
+    <li><a href="https://art19.com/shows/the-portal/episodes/e96bfd48-071e-480d-9525-4c0c26bb74e9">Ryan Holiday – Conspiracy, Manipulation & other Pastimes</a></li>
+    <li><a href="https://palladiummag.com/2022/01/14/palladium-podcast-70-samo-burja-on-rising-elites/">Samo Burja on Rising Elites</a></li>
+    <li><a href="https://www.otherlife.co/riva/">Riva Tez on Epistemological Freedom: Feyerabend, Science Funding, and How to Do Whatever You Want</a></li>
+    <li><a href="https://tim.blog/2022/05/24/ed-thorp/">Edward O. Thorp, A Man For All Markets — Beating Blackjack and Roulette, Beating the Stock Market, Spotting Bernie Madoff Early, and Knowing When Enough is Enough</a></li>
+    <li><a href="https://conversationswithtyler.com/episodes/vaughn-smith/">Vaughn Smith on Life as a Hyperpolyglot</a></li>
+    <li><a href="https://peterattiamd.com/lancearmstrong/">Lance Armstrong: The rise, fall, and growth of a cycling legend</a></li>
+    <li><a href="https://www.pushkin.fm/podcasts/against-the-rules/the-art-of-the-untold-story">The Art of the Untold Story</a></li>
+  </ul>
+</MainLayout>

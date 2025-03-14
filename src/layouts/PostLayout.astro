@@ -1,0 +1,22 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { Image } from 'astro:assets';
+const { frontmatter } = Astro.props;
+
+const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+<MainLayout title={frontmatter.title}>
+  <h1>{frontmatter.title}</h1>
+  {frontmatter.image && <Image src={frontmatter.image} alt={frontmatter.title} inferSize={true}/>}
+  <p><em>Published on {formattedDate}</em></p>
+  <slot />
+  <hr />
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <h3>Get my latest writing via email:</h3>
+    <iframe src="https://ianv.substack.com/embed" width="480" height="150" style="border:1px solid #2c4967; border-radius: 8px;" frameborder="0" scrolling="no"></iframe>
+  </div>
+</MainLayout>

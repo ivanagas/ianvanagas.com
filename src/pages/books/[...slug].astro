@@ -1,0 +1,18 @@
+---
+import { getCollection, render } from 'astro:content';
+import BookLayout from '../../layouts/BookLayout.astro';
+
+export async function getStaticPaths() {
+  const books = await getCollection('book');
+  return books.map((book: any) => ({
+    params: { slug: book.id }, props: { book },
+  }));
+}
+
+const { book } = Astro.props;
+const { Content } = await render(book);
+---
+
+<BookLayout frontmatter={book.data}>
+  <Content />
+</BookLayout>
