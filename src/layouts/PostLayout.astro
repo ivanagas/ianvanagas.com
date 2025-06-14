@@ -1,6 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import { Image } from 'astro:assets';
+// import { Image } from 'astro:assets';
 const { frontmatter } = Astro.props;
 
 const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
@@ -11,7 +11,7 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-US', {
 ---
 <MainLayout title={frontmatter.title}>
   <h1>{frontmatter.title}</h1>
-  {frontmatter.image && <Image src={frontmatter.image} alt={frontmatter.title} inferSize={true}/>}
+  <!-- {frontmatter.image && <Image src={frontmatter.image} alt={frontmatter.title} inferSize={true}/>} -->
   <p><em>Published on {formattedDate}</em></p>
   <slot />
   <hr />
