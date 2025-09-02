@@ -1,7 +1,8 @@
 ---
 title: Why study China?
 date: 2025-07-29
-tags: []
+tags:
+  - china
 ---
 - It’s shocking how little anyone knows about China. For example, what is Chinese food? Most North Americans have only ever had “American Chinese food” but don’t realize it isn’t the real thing. This applies to basically every aspect of China. What most people understand about China is some tiny sliver of what it actually is.
 - More than a billion people live in China. The country is huge and diverse. Its economy is one of (if not the) largest in the world. A lot of Western people (and companies) are reliant on Chinese goods.
