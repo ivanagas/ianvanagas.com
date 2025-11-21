@@ -1,5 +1,5 @@
 ---
-title: lisbon
+title: Lisbon
 date: 2025-11-21
 tags:
   - personal
