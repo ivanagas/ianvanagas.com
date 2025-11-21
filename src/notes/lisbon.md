@@ -20,7 +20,7 @@ I lived in Lisbon for two months in July and August 2025. Here’s a bunch of th
 
 - My favorite spot to visit in Lisbon was Cascais, basically a (rich) beach tour an hour train away from Lisbon. It was just nice to walk around the town, marina, and park. Next time, I’ll bring a swim suit and spend some time at their beaches.
 
-- There is a single best pastel de nata, I think it depends a lot on how fresh they are. [Here’s Luisa’s ranking](https://icecreamforlunch.substack.com/i/173438081/luisas-ranking-of-lisbons-tourist-trap-pastel-de-nata-edition), which I agree with. They are all good, it is worth getting one whenever possible (when you are holiday).
+- There is a single best pastel de nata, I think it depends a lot on how fresh they are. [Here’s Luisa’s ranking](https://icecreamforlunch.substack.com/i/173438081/luisas-ranking-of-lisbons-tourist-trap-pastel-de-nata-edition), which I agree with. They are all good, it is worth getting one whenever possible (when you are on holiday).
 
 - My favorite activity we did was a Benefica game (a Sporting game works too). You can often find tickets on their sites, but only the worse seats will be available and you have to click the exact seats you want (it can be annoying to find available seats). Go early and enjoy the vibes outside the stadium before the game, just follow the crowd.
 
