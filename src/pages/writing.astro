@@ -9,30 +9,57 @@ posts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const parser = new Parser();
 const ianvFeed = await parser.parseURL('https://ianv.substack.com/feed');
 const ianvPosts = (ianvFeed.items || []).map(item => ({
-    title: item.title,
-    date: item.pubDate ? new Date(item.pubDate) : new Date(),
-    url: item.link,
-    source: 'ianv-substack'
+  title: item.title,
+  date: item.pubDate ? new Date(item.pubDate) : new Date(),
+  url: item.link,
+  source: 'ianv-substack'
 }));
 
 const smartYoungBCFeed = await parser.parseURL('https://smartyoungbc.substack.com/feed');
 const smartYoungBCPosts = (smartYoungBCFeed.items || []).map(item => ({
+  title: item.title,
+  date: item.pubDate ? new Date(item.pubDate) : new Date(),
+  url: item.link,
+  source: 'smartyoungbc'
+}));
+
+// Only returns the latest 20 posts
+const productForEngineersFeed = await parser.parseURL('https://newsletter.posthog.com/feed');
+const productForEngineersPosts = (productForEngineersFeed.items || [])
+  .filter(item => {
+    const creator = item.creator || item['dc:creator'];
+    return creator === 'Ian Vanagas';
+  })
+  .map(item => ({
     title: item.title,
     date: item.pubDate ? new Date(item.pubDate) : new Date(),
     url: item.link,
-    source: 'smartyoungbc'
-}));
+    source: 'productforengineers'
+  }));
+
+const posthogFeed = await parser.parseURL('https://posthog.com/rss.xml');
+const posthogPosts = (posthogFeed.items || [])
+  .filter(item => {
+    const creator = item.creator || item['dc:creator'];
+    return creator === 'Ian Vanagas';
+  })
+  .map(item => ({
+    title: item.title,
+    date: item.pubDate ? new Date(item.pubDate) : new Date(),
+    url: item.link,
+    source: 'posthog'
+  }));
 
 const localPosts = posts.map(post => ({
-    title: post.data.title,
-    date: post.data.date,
-    url: `/posts/${post.id}`,
-    source: 'local'
+  title: post.data.title,
+  date: post.data.date,
+  url: `/posts/${post.id}`,
+  source: 'local'
 }));
 
 // Combine all posts and sort by date
-const allPosts = [...localPosts, ...ianvPosts, ...smartYoungBCPosts]
-    .sort((a, b) => b.date.getTime() - a.date.getTime())
+const allPosts = [...localPosts, ...ianvPosts, ...smartYoungBCPosts, ...productForEngineersPosts, ...posthogPosts]
+  .sort((a, b) => b.date.getTime() - a.date.getTime())
 ---
 
 <MainLayout title="Writing">
