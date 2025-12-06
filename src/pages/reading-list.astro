@@ -8,7 +8,6 @@ const favoriteBooks = books.filter((book) => book.data.tags.includes('favorite')
 const recentBooks = books
   .sort((a, b) => b.data.readDate.getTime() - a.data.readDate.getTime())
   .filter((book) => book.data.readDate > new Date('2024-01-01'))
-  .slice(0, 5);
 ---
 
 <MainLayout title="Reading List">
@@ -48,15 +47,7 @@ const recentBooks = books
     {recentBooks.map((book) => (
       <li><a href={`/books/${book.id}`}><em>{book.data.title}</em></a> by {book.data.author}</li>
     ))}
-    <li><em>The Chile Project</em> by Sebastián Edwards</li>
-    <li><em>Impro</em> by Keith Johnstone</li>
-    <li><em>Muji Is</em> by Muji Archive</li>
-    <li><em>The Republic</em> by Plato</li>
-    <li><em>The Last Days of Socrates</em> by Plato</li>
-    <li><em>Unreasonable Hospitality</em> by Will Guidara</li>
-    <li><em>Singapore, Singapura</em> by Nicholas Walton</li>
     <li><em>Brazil: A Biography</em> by Lilia Schwarcz and Heloisa Starling</li>
-    <li><em>Pitch Anything</em> by Oren Klaff</li>
     <li><em>Never Rest on Your Ores</em> by Norman Keevil</li>
     <li><em>Poor Charlie's Almanack</em> by Charlie Munger</li>
     <li><em>The Phoenix Project</em> by Gene Kim, Kevin Behr, George Spafford</li>
