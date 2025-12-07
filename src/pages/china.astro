@@ -1,0 +1,30 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+
+const books = await getCollection('book');
+const chinaBooks = books.filter((book) => book.data.tags.includes('china'));
+
+const notes = await getCollection('notes');
+const chinaNotes = notes.filter((note) => note.data.tags?.includes('china'));
+---
+
+<MainLayout title="China">
+  <h1>China</h1>
+  <p>China is maybe the subject where the gap between what I know and how interesting it is is the largest. I'm attempting to close that gap.</p>
+  
+  <h2>Notes</h2>
+  <ul>
+    {chinaNotes.map((note) => (
+      <li><a href={`/notes/${note.id}`}>{note.data.title}</a></li>
+    ))}
+  </ul>
+
+  <h2>Reading</h2>
+  <ul>
+    {chinaBooks.map((book) => (
+      <li><a href={`/books/${book.id}`}>{book.data.title}</a></li>
+    ))}
+  </ul>
+  
+</MainLayout>
