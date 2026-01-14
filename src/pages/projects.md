@@ -6,6 +6,8 @@ count: 9
 
 <h1>Projects</h1>
 
+- [Year in Review Review](https://yearinreviews.ianvanagas.com/): A collection of year-in-review posts from around the web
+
 - [ianvanagas.com](/): This website built with Astro. Moved from Wordpress. 
 
 - [Bluesky mentions](https://www.val.town/v/ianvph/blueskyAlert): Sends mentions of keyword on Bluesky to Slack.
