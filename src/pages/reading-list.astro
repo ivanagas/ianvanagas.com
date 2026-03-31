@@ -36,6 +36,7 @@ const recentBooks = books
     <li><em>When We Cease To Understand The World</em> by Benjamín Labatut</li>
     <li><a href="https://www.amazon.ca/Iliad-Fitzgerald-Translation-Homer/dp/0374529051"><em>The Iliad</em></a> by Homer (Fitzgerald Translation)</li>
     <li><em>Designing Data-Intensive Applications</em> by Martin Kleppmann</li>
+    <li><em>Seeing Like a State</em> by James C. Scott</li>
     {favoriteBooks.map((book) => (
       <li><a href={`/books/${book.id}`}><em>{book.data.title}</em></a> by {book.data.author}</li>
     ))}
